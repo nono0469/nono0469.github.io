@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poverty Data Chart</title>
+    <!-- 引入 echarts 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+    <style>
+        /* 设置图表容器的样式 */
+        #chart-container {
+            width: 800px;
+            height: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<!-- 创建一个容器用于放置图表 -->
+<div id="chart-container"></div>
+
+<script>
+    // 将你的 JavaScript 代码放在这里
+    var colors = ["#5793f3", "#d14a61", "#675bba"];
+
+    var data = [
+        { year: "2015", population: 380.3, counties: 88, villages: 11501 },
+        { year: "2016", population: 272.7, counties: 83, villages: 9064 },
+        { year: "2017", population: 163.6, counties: 68, villages: 5295 },
+        { year: "2018", population: 60, counties: 38, villages: 1782 },
+        { year: "2019", population: 10, counties: 7, villages: 300 },
+        { year: "2020", population: 0, counties: 0, villages: 0 }
+    ];
+
+    var option = {
+        color: colors,
+        tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "cross" },
+        },
+        grid: {
+            right: "20%",
+        },
+        toolbox: {
+            feature: {
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true },
+            },
+        },
+        legend: {
+            data: ["贫困人口（万人）", "贫困县", "贫困村"],
+        },
+        xAxis: [
+            {
+                type: "category",
+                axisTick: {
+                    alignWithLabel: true,
+                },
+                data: data.map(function (item) { return item.year; }),
+            },
+        ],
+        yAxis: [
+            {
+                type: "value",
+                name: "贫困人口（万人）",
+                min: 0,
+                max: 400,
+                position: "left",
+            },
+            {
+                type: "value",
+                name: "贫困县",
+                min: 0,
+                max: 120,
+                position: "right",
+            },
+            {
+                type: "value",
+                name: "贫困村",
+                min: 0,
+                max: 12000,
+                position: "right",
+                offset: 50,
+            },
+        ],
+        series: [
+            {
+                name: "贫困人口（万人）",
+                type: "bar",
+                yAxisIndex: 0,
+                data: data.map(function (item) { return item.population; }),
+            },
+            {
+                name: "贫困县",
+                type: "line",
+                yAxisIndex: 1,
+                data: data.map(function (item) { return item.counties; }),
+            },
+            {
+                name: "贫困村",
+                type: "line",
+                yAxisIndex: 2,
+                data: data.map(function (item) { return item.villages; }),
+            },
+        ],
+    };
+
+    // 获取图表容器
+    var chartContainer = document.getElementById('chart-container');
+    // 使用 echarts 初始化图表
+    var chart = echarts.init(chartContainer);
+    // 将配置项设置给图表
+    chart.setOption(option);
+</script>
+</body>
+</html>
